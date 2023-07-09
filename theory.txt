@@ -1,0 +1,16 @@
+node -v
+npm - v
+npm init vite@latest nombre
+√ Select a framework: » React
+√ Select a variant: » JavaScript
+ 
+cd form
+npm install
+npm run dev
+
+npm install @mui/material @emotion/react @emotion/styled @mui/styled-engine-sc styled-components 
+
+npm install formik
+
+validacion aun no instalado: 
+    npm install yup
