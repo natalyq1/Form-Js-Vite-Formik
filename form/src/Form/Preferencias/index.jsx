@@ -28,7 +28,7 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
 
     if (isComunicationValid && isConditionsValid) {
       const newData = {
-        ...initialValues,
+        ...previousData,
         comunication,
         conditions,
       };
@@ -77,7 +77,7 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
           setConditionsValid(null)
         }}
         error={conditionsValid === false}
-        helperText={conditionsValid === false && "Ingresa una fecha"}
+        helperText={conditionsValid === false && "Escoge una opción"}
       >
         <MenuItem value={'si'} selected>Sí</MenuItem>
         <MenuItem value={'no'}>No</MenuItem>
@@ -87,7 +87,7 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
         Anterior
       </Button>
       <Button variant="contained" type="submit" sx={{ textAlign: 'left', marginTop: '1.2em' }}>
-        Crear cuenta
+        Siguiente
       </Button>
     </Box>
   );

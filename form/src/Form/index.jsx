@@ -8,6 +8,7 @@ import Complete from "./Complete";
 import Stepper from "../Stepper";
 import DatosEspecificos from "./DatosEspecificos";
 import Preferencias from "./Preferencias";
+import Sumarize from "./Sumarize";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -84,7 +85,14 @@ const Form = () => {
       goToPreviousStep={goToPreviousStep}
       previousData={formData.datosEspecificos}
     />,
-    5: <Complete />,
+    5: <Sumarize
+      setFormData={setFormData}
+      formData={formData}
+      goToPreviousStep={goToPreviousStep}
+      previousData={formData.preferencias}
+      updateStep={updateStep}
+      />,
+    6: <Complete />,
 
   }
 
@@ -105,7 +113,7 @@ const Form = () => {
         <Typography variant="h3">Foolish Store</Typography>
       </LogoSpace>
       <FormSpace>
-        {step <= 5 && <Stepper step={step} />}
+        {step <= 6 && <Stepper step={step} />}
         {/* <DatosUsuario />
         <DatosPersonales />
         <DatosEntrega />

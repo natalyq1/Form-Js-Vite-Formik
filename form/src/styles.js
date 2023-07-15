@@ -2,10 +2,9 @@ import styled from "styled-components";
 
 export const MainSpace = styled.div`
   width: 98vw;
-  height: 97vh;
+  height: 100vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
   padding: 0;
   margin: 0;
 `;
