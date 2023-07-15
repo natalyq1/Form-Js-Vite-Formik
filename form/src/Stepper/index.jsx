@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box, Stepper, Step, StepLabel } from "@mui/material";
 
 const StepperComponent = (props) => {

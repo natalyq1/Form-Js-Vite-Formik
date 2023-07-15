@@ -1,5 +1,5 @@
 
 export const validarInput = (input) => {
- return input.length >= 4  ? true : false
+    return input.trim().length > 0;
 }
 

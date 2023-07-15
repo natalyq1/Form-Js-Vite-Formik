@@ -1,33 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Button, Box, FormLabel, InputLabel, Select, MenuItem } from "@mui/material";
 import { validarInput } from "./validaciones";
 
-const DatosEspecificos = ({ updateStep }) => {
+const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
 
-  const [bornDate, setBornDate] = useState({ value: '', valid: null })
-  const [gender, setGender] = useState({ value: '', valid: null })
-  const [civilStatus, setCivilStatus] = useState({ value: '', valid: null })
+  const [bornDate, setBornDate] = useState(initialValues.bornDate)
+  const [gender, setGender] = useState(initialValues.gender)
+  const [civilStatus, setCivilStatus] = useState(initialValues.civilStatus)
 
+  useEffect(() => {
+    if (previousData) {
+      setBornDate(previousData.bornDate);
+      setGender(previousData.gender);
+      setCivilStatus(previousData.civilStatus);
+    }
+  }, [previousData]);
+
+  const [bornDateValid, setBornDateValid] = useState(null);
+  const [genderValid, setGenderValid] = useState(null);
+  const [civilStatusValid, setCivilStatusValid] = useState(null);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const isBornDateValid = validarInput(bornDate);
+    const isGenderValid = validarInput(gender);
+    const isCivilStatusValid = validarInput(civilStatus);
+
+    setBornDateValid(isBornDateValid);
+    setGenderValid(isGenderValid);
+    setCivilStatusValid(isCivilStatusValid);
+
+    if (isBornDateValid && isGenderValid && isCivilStatusValid) {
+      const newData = {
+        ...initialValues,
+        bornDate,
+        gender,
+        civilStatus
+      };
+
+      setFormData((prevState) => ({
+        ...prevState,
+        datosEspecificos: newData
+      }));
+
+      updateStep(4);
+    }
+  };
 
   return (
     <Box
       component="form"
       autoComplete="off"
+      onSubmit={handleFormSubmit}
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-      }}
-      onSubmit = {(e) => {
-        e.preventDefault()
-        if ( civilStatus.valid && gender.valid && bornDate.valid) {
-          updateStep(4)
-        } else {
-          console.log('no hacer nada');
-        }
-      }}
-    >
+      }}>
       
       <FormLabel sx={{ textAlign: 'left', marginTop: '2em', marginBottom: '0.3em' }}>Fecha de nacimiento</FormLabel>
       <TextField
@@ -35,26 +66,24 @@ const DatosEspecificos = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="date"
-        error={bornDate.valid === false}
-        helperText={bornDate.valid === false && "Ingresa una fecha"}
-        value={bornDate.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarInput(value)
-          setBornDate({ value, valid })
-        }
-        }
+        defaultValue={bornDate}
+        onChange={(e) => {
+          setBornDate(e.target.value) 
+          setBornDateValid(null)
+        }}
+       error={bornDateValid === false}
+        helperText={bornDateValid === false && "Ingresa una fecha"}
       />
       
-      <InputLabel id="demo-simple-select-label" sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Género</InputLabel>
+      <InputLabel sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Género</InputLabel>
       <Select fullWidth
-        value={bornDate.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarInput(value)
-          setGender({ value, valid })
-        }
-        }
+        defaultValue={gender}
+        onChange={(e) => {
+          setGender(e.target.value)
+          setGenderValid(null)
+        }}
+        error={genderValid === false}
+        helperText={genderValid === false && "Escoge una opción"}
       >
         <MenuItem value={'masculino'} selected>Masculino</MenuItem>
         <MenuItem value={'femenino'}>Femenino</MenuItem>
@@ -64,14 +93,14 @@ const DatosEspecificos = ({ updateStep }) => {
 
       <InputLabel  sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Estado civíl</InputLabel>
       <Select fullWidth
-        value={civilStatus.value}
+        defaultValue={civilStatus}
         onChange={
-          (input) => {
-            const value = input.target.value
-            const valid = validarInput(value)
-            setCivilStatus({ value, valid })
-          }
-        }
+          (e) => {
+            setCivilStatus(e.target.value) 
+            setCivilStatusValid(null)
+          }}
+        error={civilStatusValid === false}
+        helperText={civilStatusValid === false && "Escoge una opción"}
       >
         <MenuItem value={'soltero'}>Soltero</MenuItem>
         <MenuItem value={'casado'}>Casado</MenuItem>
@@ -81,6 +110,9 @@ const DatosEspecificos = ({ updateStep }) => {
       <Button variant="contained" type="submit" sx={{
      marginTop: '1em'}} >
         Siguiente
+      </Button>
+      <Button variant="contained" onClick={goToPreviousStep}>
+        Anterior
       </Button>
     </Box>
   );

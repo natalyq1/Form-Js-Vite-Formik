@@ -1,47 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
-import { validarApellidos, validarNombre, validarTelefono } from "./validaciones";
+import { validarNombre, validarApellidos, validarTelefono } from "./validaciones";
 
-const DatosPersonales = ({ updateStep }) => {
+const DatosPersonales = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
+  const [name, setName] = useState(initialValues.name);
+  const [lastName, setLastName] = useState(initialValues.lastName);
+  const [phone, setPhone] = useState(initialValues.phone);
 
-  const [name, setName] = useState({ value: '', valid: null })
-  const [lastName, setLastName] = useState({ value: '', valid: null })
-  const [phone, setPhone] = useState({ value: '', valid: null })
+  useEffect(() => {
+    if (previousData) {
+      setName(previousData.name);
+      setLastName(previousData.lastName);
+      setPhone(previousData.phone);
+    }
+  }, [previousData]);
+
+  const [nameValid, setNameValid] = useState(null);
+  const [lastNameValid, setLastNameValid] = useState(null);
+  const [phoneValid, setPhoneValid] = useState(null);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const isNameValid = validarNombre(name);
+    const isLastNameValid = validarApellidos(lastName);
+    const isPhoneValid = validarTelefono(phone);
+
+    setNameValid(isNameValid);
+    setLastNameValid(isLastNameValid);
+    setPhoneValid(isPhoneValid);
+
+    if (isNameValid && isLastNameValid && isPhoneValid) {
+      const newData = {
+        ...initialValues,
+        name,
+        lastName,
+        phone
+      };
+
+      setFormData((prevState) => ({
+        ...prevState,
+        datosPersonales: newData
+      }));
+
+      updateStep(2);
+    }
+  };
 
   return (
     <Box
       component="form"
       autoComplete="off"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-      onSubmit = {(e) => {
-        e.preventDefault()
-        if (name.valid && lastName.valid && phone.valid) {
-          updateStep(2)
-        } else {
-          console.log('no hacer nada');
-        }
-      }}
-    >
+      onSubmit={handleFormSubmit}>
       <TextField
         label="Nombre"
         variant="outlined"
         fullWidth
         margin="dense"
         type="text"
-        error={name.valid === false}
-        helperText={name.valid === false && "Ingresa al menos 2 caracteres y máximo 30."}
-        value={name.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarNombre(value)
-          setName({ value, valid })
-        }
-        }
+        defaultValue={name}
+        onChange={(e) => {
+          setName(e.target.value)
+          setNameValid(null)
+        }}
+        error={nameValid === false}
+        helperText={nameValid === false && "Ingrese al menos 2 caracteres y máximo 30."}
+
       />
       <TextField
         label="Apellidos"
@@ -49,33 +73,34 @@ const DatosPersonales = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        error={lastName.valid === false}
-        helperText={lastName.valid === false && "Ingresa al menos 8 caracteres y máximo 50."}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarApellidos(value)
-          setLastName({ value, valid })
-        }
-        }
+        defaultValue={lastName}
+        onChange={(e) => {
+          setLastName(e.target.value)
+          setLastNameValid(null)
+        }}
+        error={lastNameValid === false}
+        helperText={lastNameValid === false && "Ingrese al menos 8 caracteres y máximo 50."}
+
       />
       <TextField
         label="Número telefónico"
         variant="outlined"
         fullWidth
         margin="dense"
-        type="number"
-        error={phone.valid === false}
-        helperText={phone.valid === false && "Ingresa al menos 8 digitos y máximo 14."}
-        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarTelefono(value)
-          setPhone({ value, valid })
-        }
-        }
+        type="text"
+        defaultValue={phone}
+        onChange={(e) => {
+          setPhone(e.target.value)
+          setPhoneValid(null)
+        }}
+        error={phoneValid === false}
+        helperText={phoneValid === false && "Ingrese al menos 8 dígitos y máximo 14."}
       />
       <Button variant="contained" type="submit">
         Siguiente
+      </Button>
+      <Button variant="contained" onClick={goToPreviousStep}>
+        Anterior
       </Button>
     </Box>
   );

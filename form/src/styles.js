@@ -28,7 +28,10 @@ export const FormSpace = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  
   @media (max-width: 768px) {
     width: 100vw;
   }
 `;
+
+

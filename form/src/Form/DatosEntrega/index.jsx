@@ -1,31 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarInput } from "./validaciones";
 
-const DatosEntrega = ({ updateStep }) => {
+const DatosEntrega = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
 
-  const [address, setAddress] = useState({ value: '', valid: null })
-  const [city, setCity] = useState({ value: '', valid: null })
-  const [providence, setProvidence] = useState({ value: '', valid: null })
+  const [address, setAddress] = useState(initialValues.address)
+  const [city, setCity] = useState(initialValues.city)
+  const [providence, setProvidence] = useState(initialValues.providence)
 
+  useEffect(() => {
+    if (previousData) {
+      setAddress(previousData.address);
+      setCity(previousData.city);
+      setProvidence(previousData.providence);
+    }
+  }, [previousData]);
 
+  const [addressValid, setAddressValid] = useState(null);
+  const [cityValid, setCityValid] = useState(null);
+  const [providenceValid, setProvidenceValid] = useState(null);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const isAddressValid = validarInput(address);
+    const isCityValid = validarInput(city);
+    const isProvidenceValid = validarInput(providence);
+
+    setAddressValid(isAddressValid);
+    setCityValid(isCityValid);
+    setProvidenceValid(isProvidenceValid);
+
+    if (isAddressValid && isCityValid && isProvidenceValid) {
+      const newData = {
+        ...initialValues,
+        address,
+        city,
+        providence
+      };
+
+      setFormData((prevState) => ({
+        ...prevState,
+        datosEntrega: newData
+      }));
+
+      updateStep(3);
+    }
+  };
   return (
     <Box
       component="form"
       autoComplete="off"
+      onSubmit={handleFormSubmit}
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-      }}
-      onSubmit = {(e) => {
-        e.preventDefault()
-        if (address.valid && city.valid && providence.valid) {
-          updateStep(3)
-        } else {
-          console.log('no hacer nada');
-        }
       }}
     >
       <TextField
@@ -34,15 +65,13 @@ const DatosEntrega = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        error={address.valid === false}
-        helperText={address.valid === false && "Ingresa al menos 4 caracteres."}
-        value={address.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarInput(value)
-          setAddress({ value, valid })
-        }
-        }
+        defaultValue={address}
+        onChange={(e) => {
+          setAddress(e.target.value)
+          setAddressValid(null)
+        }}
+         error={addressValid === false}
+        helperText={addressValid === false && "Ingresa al menos 4 caracteres."}
       />
       <TextField
         label="Ciudad"
@@ -50,15 +79,15 @@ const DatosEntrega = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        error={city.valid === false}
-        helperText={city.valid === false && "Ingresa al menos 4 caracteres."}
-        value={city.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarInput(value)
-          setCity({ value, valid })
+        defaultValue={city}
+        onChange={(e) => {
+          setCity(e.target.value)
+          setCityValid(null)
         }
         }
+        error={cityValid === false}
+        helperText={cityValid === false && "Ingresa al menos 4 caracteres."}
+
       />
       <TextField
         label="Estado/Provincia"
@@ -66,18 +95,19 @@ const DatosEntrega = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        error={providence.valid === false}
-        helperText={providence.valid === false && "Ingresa al menos 4 caracteres."}
-        value={providence.value}
-        onChange={(input) => {
-          const value = input.target.value
-          const valid = validarInput(value)
-          setProvidence({ value, valid })
-        }
-        }
+        defaultValue={providence}
+        onChange={(e) => {
+          setProvidence(e.target.value)
+          setProvidenceValid(null)
+        }}
+        error={providenceValid === false}
+        helperText={providenceValid === false && "Ingresa al menos 4 caracteres."}
       />
       <Button variant="contained" type="submit">
         Siguiente
+      </Button>
+      <Button variant="contained" onClick={goToPreviousStep}>
+        Anterior
       </Button>
     </Box>
   );

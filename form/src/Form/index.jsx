@@ -10,27 +10,84 @@ import DatosEspecificos from "./DatosEspecificos";
 import Preferencias from "./Preferencias";
 
 const Form = () => {
+  const [formData, setFormData] = useState({
+    datosUsuario: {
+      email: "",
+      password: "",
+    },
+    datosPersonales: {
+      name: "",
+      lastName: "",
+      phone: ""
+    },
+    datosEntrega: {
+      address: "",
+      city: "",
+      providence: ""
+    },
+    datosEspecificos: {
+      bornDate: '',
+      gender: '',
+      civilStatus: '',
+    },
+    preferencias: {
+      comunications: '',
+      conditions: ''
+    }
+  });
+
 
   const [step, setStep] = useState(0)
   //step = 0 ---> <DatosUsuario />
   //step = 1 ---> <DatosPersonales />
   //step = 2 ---> <DatosEntrega />
   //step = 3 ---> <Complete />
-
   const updateStep = (step) => {
     console.log('actualizar paso', step);
     setStep(step)
   }
+  const goToPreviousStep = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
 
   const steps = {
-    0: <DatosUsuario updateStep={updateStep} />,
-    1: <DatosPersonales updateStep={updateStep} />,
-    2: <DatosEntrega updateStep={updateStep} />,
-    3: <DatosEspecificos updateStep={updateStep} />,
-    4: <Preferencias updateStep={updateStep} />,
+    0: <DatosUsuario
+      updateStep={updateStep}
+      initialValues={formData.datosUsuario}
+      setFormData={setFormData} />,
+    1: <DatosPersonales
+      updateStep={updateStep}
+      initialValues={formData.datosPersonales}
+      setFormData={setFormData}
+      goToPreviousStep={goToPreviousStep}
+      previousData={formData.datosUsuario}
+    />,
+    2: <DatosEntrega
+      updateStep={updateStep}
+      initialValues={formData.datosEntrega}
+      setFormData={setFormData}
+      goToPreviousStep={goToPreviousStep}
+      previousData={formData.datosPersonales}
+    />,
+    3: <DatosEspecificos
+      updateStep={updateStep}
+      initialValues={formData.datosEspecificos}
+      setFormData={setFormData}
+      goToPreviousStep={goToPreviousStep}
+      previousData={formData.datosEntrega}
+    />,
+    4: <Preferencias
+      updateStep={updateStep}
+      initialValues={formData.preferencias}
+      setFormData={setFormData}
+      goToPreviousStep={goToPreviousStep}
+      previousData={formData.datosEspecificos}
+    />,
     5: <Complete />,
 
   }
+
 
   return (
     <Box
@@ -40,7 +97,7 @@ const Form = () => {
         paddingTop: "90px",
         display: "flexbox",
         flexDirection: "column",
-        
+
       }}
     >
       <LogoSpace>
@@ -48,7 +105,7 @@ const Form = () => {
         <Typography variant="h3">Foolish Store</Typography>
       </LogoSpace>
       <FormSpace>
-        {step <= 5 && <Stepper  step={step} />} 
+        {step <= 5 && <Stepper step={step} />}
         {/* <DatosUsuario />
         <DatosPersonales />
         <DatosEntrega />
