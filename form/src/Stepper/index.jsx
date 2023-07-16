@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
-import { Box, Stepper, Step, StepLabel } from "@mui/material";
+import { Box, Stepper, Step, StepLabel, Typography } from "@mui/material";
 
 const StepperComponent = (props) => {
  
-  const steps = ["Datos de usuario", "Datos personales", "Datos de entrega", "Datos Especificos", "Preferencias"];
+  const steps = ["Datos de usuario", "Datos personales", "Datos de entrega", "Datos Especificos", "Preferencias",'Resumen'];
 
   return (
-    <Box sx={{ width: "100%" , margin:'2em auto'}}>
-      <Stepper sx={{ gap: '0.8rem', justifyContent: 'space-between' }} activeStep={props.step}>
+    <Box sx={{ width: "100%" , margin:'2em auto 0 auto'}}>
+      <Typography variant="h5" style={{ textAlign: 'center', color: '#0575A5', marginBottom: '1.5em' }}>Formulario de registro</Typography>
+      <Stepper sx={{ gap: '0.5rem', justifyContent: 'space-between' }} activeStep={props.step}>
         {steps.map((step) => (
           <Step key={step}>
-            <StepLabel>{step}</StepLabel>
+            <StepLabel style={{marginBottom:'1.5em'}}>{step}</StepLabel>
           </Step>
         ))}
       </Stepper>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Box, InputLabel, Select, MenuItem } from "@mui/material";
 import { validarInput } from "./validaciones";
+import { ButtonGoNext, ButtonGoPrev, ButtonsContainer } from "../styles";
 
 const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
 
@@ -28,7 +29,7 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
 
     if (isComunicationValid && isConditionsValid) {
       const newData = {
-        ...previousData,
+        ...initialValues,
         comunication,
         conditions,
       };
@@ -46,16 +47,11 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
       component="form"
       autoComplete="off"
       onSubmit={handleFormSubmit}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}>
+      >
 
-      <InputLabel id="demo-simple-select-label" sx={{ textAlign: 'left', marginTop: '3em', marginBottom: '0.5em' }}>Medio de comunicación</InputLabel>
+      <InputLabel style={{ fontSize: '12px' }} id="demo-simple-select-label" sx={{ textAlign: 'left', marginTop: '3em', marginBottom: '0.5em' }}>Medio de comunicación</InputLabel>
       <Select fullWidth
-        value={comunication}
+        defaultValue={comunication}
         onChange={(e) => {
           setComunication(e.target.value)
           setComunicationValid(null)
@@ -69,9 +65,9 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
       </Select>
 
 
-      <InputLabel id="demo-simple-select-label" sx={{ textAlign: 'left', marginTop: '1em', marginBottom: '0.5em' }}>Acepta  <a href="https://www.google.com"> términos y condiciones </a></InputLabel>
+      <InputLabel style={{ fontSize: '12px' }} id="demo-simple-select-label" sx={{ textAlign: 'left', marginTop: '1em', marginBottom: '0.5em' }}>Acepta  <a href="https://www.google.com"> términos y condiciones </a></InputLabel>
       <Select fullWidth
-        value={conditions}
+        defaultValue={conditions}
         onChange={(e) => {
           setConditions(e.target.value)
           setConditionsValid(null)
@@ -83,12 +79,14 @@ const Preferencias = ({ updateStep, initialValues, setFormData, goToPreviousStep
         <MenuItem value={'no'}>No</MenuItem>
       </Select>
 
-      <Button variant="contained" onClick={goToPreviousStep}>
-        Anterior
-      </Button>
-      <Button variant="contained" type="submit" sx={{ textAlign: 'left', marginTop: '1.2em' }}>
-        Siguiente
-      </Button>
+      <ButtonsContainer>
+        <ButtonGoPrev variant="contained" onClick={goToPreviousStep}>
+          Anterior
+        </ButtonGoPrev>
+        <ButtonGoNext variant="contained" type="submit">
+          Siguiente
+        </ButtonGoNext>
+      </ButtonsContainer>
     </Box>
   );
 };

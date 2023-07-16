@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 
 import { validarEmail, validarPassword } from "./validaciones";
+import { ButtonGoNext } from "../styles";
 
 const DatosUsuario = ({ updateStep, initialValues, setFormData }) => {
   const [password, setPassword] = useState(initialValues.password);
@@ -67,9 +68,11 @@ const DatosUsuario = ({ updateStep, initialValues, setFormData }) => {
         error={passwordValid === false}
         helperText={passwordValid === false ? "Ingrese al menos 2 caracteres y máximo 30.": ''}
       />
-      <Button      variant="contained" type="submit">
+       <ButtonGoNext      variant="contained" type="submit">
         Siguiente
-      </Button>
+    </ButtonGoNext>
+
+      
     </Box>
   );
 };

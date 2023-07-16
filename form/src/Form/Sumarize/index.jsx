@@ -1,4 +1,5 @@
 import { Button, Typography } from "@mui/material";
+import { ButtonGoNext, ButtonGoPrev, ButtonsContainer } from "../styles";
 
 const Sumarize = ({ formData, updateStep, goToPreviousStep }) => {
   const { datosUsuario, datosPersonales, datosEntrega, datosEspecificos, preferencias } = formData;
@@ -9,8 +10,10 @@ const Sumarize = ({ formData, updateStep, goToPreviousStep }) => {
 
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <Typography variant="h4">Resumen de datos</Typography>
+    <form 
+      style={{ textAlign: 'left', marginLeft: '6em' }}
+    onSubmit={handleFormSubmit}>
+      <Typography variant="h6" style={{ color: '#0575A5', textAlign: 'center', marginLeft: '0' }}>Resumen de datos</Typography>
       <Typography>
         <strong>Datos de Usuario:</strong>
       </Typography>
@@ -40,12 +43,14 @@ const Sumarize = ({ formData, updateStep, goToPreviousStep }) => {
       <Typography>Comunicaciones: {preferencias.comunication}</Typography>
       <Typography>Condiciones: {preferencias.conditions}</Typography>
 
-      <Button variant="contained" onClick={goToPreviousStep}>
-        Anterior
-      </Button>
-      <Button variant="contained" type="submit" sx={{ textAlign: 'left', marginTop: '1.2em' }}>
-        Crear cuenta
-      </Button>
+      <ButtonsContainer>
+        <ButtonGoPrev variant="contained" onClick={goToPreviousStep}>
+          Anterior
+        </ButtonGoPrev>
+        <ButtonGoNext variant="contained" type="submit">
+          Crear cuenta
+        </ButtonGoNext>
+      </ButtonsContainer>
     </form>
   );
 };

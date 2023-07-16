@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 import { validarInput } from "./validaciones";
+import { ButtonGoNext, ButtonGoPrev, ButtonsContainer } from "../styles";
 
 const DatosEntrega = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
 
@@ -52,12 +53,7 @@ const DatosEntrega = ({ updateStep, initialValues, setFormData, goToPreviousStep
       component="form"
       autoComplete="off"
       onSubmit={handleFormSubmit}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
+      
     >
       <TextField
         label="Dirección"
@@ -70,7 +66,7 @@ const DatosEntrega = ({ updateStep, initialValues, setFormData, goToPreviousStep
           setAddress(e.target.value)
           setAddressValid(null)
         }}
-         error={addressValid === false}
+        error={addressValid === false}
         helperText={addressValid === false && "Ingresa al menos 4 caracteres."}
       />
       <TextField
@@ -103,12 +99,14 @@ const DatosEntrega = ({ updateStep, initialValues, setFormData, goToPreviousStep
         error={providenceValid === false}
         helperText={providenceValid === false && "Ingresa al menos 4 caracteres."}
       />
-      <Button variant="contained" type="submit">
-        Siguiente
-      </Button>
-      <Button variant="contained" onClick={goToPreviousStep}>
-        Anterior
-      </Button>
+      <ButtonsContainer>
+        <ButtonGoPrev variant="contained" onClick={goToPreviousStep}>
+          Anterior
+        </ButtonGoPrev>
+        <ButtonGoNext variant="contained" type="submit">
+          Siguiente
+        </ButtonGoNext>
+      </ButtonsContainer>
     </Box>
   );
 };

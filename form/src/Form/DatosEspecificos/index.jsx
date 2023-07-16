@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TextField, Button, Box, FormLabel, InputLabel, Select, MenuItem } from "@mui/material";
+import { TextField, Button, Box, FormLabel, InputLabel, Select, MenuItem, responsiveFontSizes } from "@mui/material";
 import { validarInput } from "./validaciones";
+import { ButtonGoNext, ButtonGoPrev, ButtonsContainer } from "../styles";
 
 const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
 
@@ -53,14 +54,9 @@ const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPrevious
       component="form"
       autoComplete="off"
       onSubmit={handleFormSubmit}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}>
+      >
       
-      <FormLabel sx={{ textAlign: 'left', marginTop: '2em', marginBottom: '0.3em' }}>Fecha de nacimiento</FormLabel>
+      <FormLabel style={{ fontSize: '12px' }} sx={{ textAlign: 'left', marginTop: '2em', marginBottom: '0.3em' }}>Fecha de nacimiento</FormLabel>
       <TextField
         variant="outlined"
         fullWidth
@@ -75,7 +71,7 @@ const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPrevious
         helperText={bornDateValid === false && "Ingresa una fecha"}
       />
       
-      <InputLabel sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Género</InputLabel>
+      <InputLabel style={{fontSize:'12px'}} sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em',}}>Género</InputLabel>
       <Select fullWidth
         defaultValue={gender}
         onChange={(e) => {
@@ -91,7 +87,7 @@ const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPrevious
       </Select>
 
 
-      <InputLabel  sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Estado civíl</InputLabel>
+      <InputLabel style={{ fontSize: '12px' }} sx={{ textAlign: 'left', marginTop: '0.3em', marginBottom: '0.3em' }}>Estado civíl</InputLabel>
       <Select fullWidth
         defaultValue={civilStatus}
         onChange={
@@ -107,13 +103,14 @@ const DatosEspecificos = ({ updateStep, initialValues, setFormData, goToPrevious
         <MenuItem value={'otro'}>Otro</MenuItem>
       </Select>
 
-      <Button variant="contained" type="submit" sx={{
-     marginTop: '1em'}} >
-        Siguiente
-      </Button>
-      <Button variant="contained" onClick={goToPreviousStep}>
-        Anterior
-      </Button>
+      <ButtonsContainer>
+        <ButtonGoPrev variant="contained" onClick={goToPreviousStep}>
+          Anterior
+        </ButtonGoPrev>
+        <ButtonGoNext variant="contained" type="submit">
+          Siguiente
+        </ButtonGoNext>
+      </ButtonsContainer>
     </Box>
   );
 };

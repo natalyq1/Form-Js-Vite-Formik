@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarNombre, validarApellidos, validarTelefono } from "./validaciones";
+import { ButtonGoNext, ButtonGoPrev, ButtonsContainer } from "../styles";
 
 const DatosPersonales = ({ updateStep, initialValues, setFormData, goToPreviousStep, previousData }) => {
   const [name, setName] = useState(initialValues.name);
@@ -87,7 +88,7 @@ const DatosPersonales = ({ updateStep, initialValues, setFormData, goToPreviousS
         variant="outlined"
         fullWidth
         margin="dense"
-        type="text"
+        type="number"
         defaultValue={phone}
         onChange={(e) => {
           setPhone(e.target.value)
@@ -96,12 +97,14 @@ const DatosPersonales = ({ updateStep, initialValues, setFormData, goToPreviousS
         error={phoneValid === false}
         helperText={phoneValid === false && "Ingrese al menos 8 dígitos y máximo 14."}
       />
-      <Button variant="contained" type="submit">
-        Siguiente
-      </Button>
-      <Button variant="contained" onClick={goToPreviousStep}>
-        Anterior
-      </Button>
+      <ButtonsContainer>
+        <ButtonGoPrev variant="contained" onClick={goToPreviousStep}>
+          Anterior
+        </ButtonGoPrev>
+        <ButtonGoNext variant="contained" type="submit">
+          Siguiente
+        </ButtonGoNext>
+      </ButtonsContainer>
     </Box>
   );
 };

@@ -91,29 +91,22 @@ const Form = () => {
       goToPreviousStep={goToPreviousStep}
       previousData={formData.preferencias}
       updateStep={updateStep}
-      />,
+    />,
     6: <Complete />,
 
   }
 
 
   return (
-    <Box
-      sx={{
-        margin: '0',
-        padding: "30px",
-        paddingTop: "90px",
-        display: "flexbox",
-        flexDirection: "column",
-
-      }}
-    >
+    <Box>
       <LogoSpace>
         <Img src={"/img/delivery.svg"} />
-        <Typography variant="h3">Foolish Store</Typography>
+        <Typography variant="h3" style={{ color: '#F28124' }}>Foolish <span style={{ color: '#FF9D4D' }}>Store</span></Typography>
+
       </LogoSpace>
+      
       <FormSpace>
-        {step <= 6 && <Stepper step={step} />}
+        {step < 6 && <Stepper step={step} />}
         {/* <DatosUsuario />
         <DatosPersonales />
         <DatosEntrega />
