@@ -6,6 +6,10 @@ export const MainSpace = styled.div`
   display: flex;
   padding: 0;
   margin: 0;
+  @media (max-width: 768px) {
+    //width: 100vw;
+   // margin:1em;
+  }
 `;
 
 export const ImageSpace = styled.div`
@@ -31,7 +35,13 @@ export const FormSpace = styled.div`
   display: flex;
   flex-direction: column;
   @media (max-width: 768px) {
-    width: 100vw;
+    width: 80vw;
+    margin:auto;
+  }
+`;
+export const Article = styled.article`
+@media (max-width: 768px) {
+    display: none;
   }
 `;
 

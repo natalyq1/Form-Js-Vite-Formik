@@ -6,6 +6,10 @@ export const FormSpace = styled.div`
   width: 100%;
   height: fit-content;
   padding-bottom: 3em;
+  @media (max-width: 768px) {
+    //width: 60vw;
+   // margin:auto;
+  }
 `;
 
 
@@ -57,4 +61,12 @@ font-weight:400;
  box-shadow:  2px 2px 3px #ba7136,
              -1px -2px 3px #d2aa89;
 }
+`;
+
+export const FormSumarize = styled.form`
+text-align: left;
+margin-left: 6em;
+ @media (max-width: 768px) {
+    margin-left: 1em;
+  }
 `;
