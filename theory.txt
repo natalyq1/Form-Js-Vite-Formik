@@ -14,3 +14,7 @@ npm install formik
 
 validacion aun no instalado: 
     npm install yup
+
+Storybook:
+npx storybook@latest init
+npm run storybook
